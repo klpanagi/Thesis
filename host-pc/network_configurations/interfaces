@@ -1,0 +1,41 @@
+# interfaces(5) file used by ifup(8) and ifdown(8)
+auto lo
+iface lo inet loopback
+
+auto eth0
+iface eth0 inet static
+  address       155.207.33.185
+  netmask       255.255.255.0
+  broadcast     155.207.33.255
+  gateway       155.207.33.100
+  dns-nameservers 155.207.33.2 8.8.8.8 155.207.0.31
+
+
+allow-hotplug eth1
+auto eth1
+iface eth1 inet static
+  pre-up iptables-restore < /etc/ipv4tables.conf
+  address 10.1.1.1
+  netmask 255.255.255.0
+  dns-nameservers 8.8.8.8
+
+
+
+allow-hotplug wlan0
+#auto wlan0
+iface wlan0 inet dhcp
+#iface wlan0 inet static
+#address 192.168.0.102
+###--- NAOCERTH ACCESS_POINT CONFIGURATIONS ---###
+  wpa-ssid NAO_CERTH_GW
+  wpa-psk N@0CeRtH!
+##################################################
+###--- PANDORA_BENCH ACCESS_POINT CONFIGURATIONS ---###
+#wpa-ssid PANDORA_BENCH
+#wpa-psk optimusprime
+##################################################
+# --- CSAL ---
+#wpa-ssid CSAL
+#wpa-psk thmmy-e!
+#
+
