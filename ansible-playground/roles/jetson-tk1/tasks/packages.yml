@@ -1,0 +1,13 @@
+---
+
+- name: Install basic system packages
+  sudo: yes
+  remote_user: klpanagi
+  apt: pkg={{ item }}
+    state=latest
+  with_items:
+    - vim
+    - bash-completion
+    - command-not-found
+    - clang
+    - git

@@ -1,0 +1,7 @@
+PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games"
+
+# --- LOCALES --- #
+LC_ALL=C
+LANG=C
+LANGUAGE=C
+LC_MESSAGES=POSIX

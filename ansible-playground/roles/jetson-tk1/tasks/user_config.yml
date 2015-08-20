@@ -1,0 +1,27 @@
+---
+
+- name: Create user klpanagi
+  sudo: yes
+  user: name={{admin_username}}
+        password={{admin_password}}
+        shell=/bin/bash
+        groups=sudo,dialout,video,audio,adm
+        append=yes
+
+- name: Create scripts directory
+  sudo: no
+  become: yes
+  become_user: klpanagi
+  file: path=~/scripts
+        state=directory
+        recurse=yes
+  register: scriptdirexist
+
+- name: Copy user script files
+  when: scriptdirexist|success
+  sudo: no
+  become: yes
+  become_user: klpanagi
+  copy:
+        src=scripts/system_info.sh
+        dest=~/scripts/system_info.sh
