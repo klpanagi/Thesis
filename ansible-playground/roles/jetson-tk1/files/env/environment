@@ -5,3 +5,6 @@ LC_ALL=C
 LANG=C
 LANGUAGE=C
 LC_MESSAGES=POSIX
+
+# --- Remote Display --- #
+DISPLAY=:0
