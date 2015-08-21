@@ -114,8 +114,8 @@ if ! shopt -oq posix; then
 fi
 
 ## Cuda Related Enviroment Setup ##
-export PATH=/usr/local/cuda/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-export LD_LIBRARY_PATH=/usr/local/cuda/lib:
+export PATH=/opt/cuda/bin:${PATH}
+export LD_LIBRARY_PATH=/opt/cuda/lib:${LD_LIBRARY_PATH}
 export __GL_PERFMON_MODE=1
 ## ############################ ##
 
