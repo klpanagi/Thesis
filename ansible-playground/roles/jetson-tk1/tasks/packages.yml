@@ -26,9 +26,9 @@
         state=latest
   with_items:
     - build-essential
-    - make
-    - cmake
-    - mesa-utils
+    #- make
+    #- cmake
+    #- mesa-utils
 
 
 
