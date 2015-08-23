@@ -10,15 +10,7 @@
   register: dirExist
 
 
-- name: Updating /etc/rc.local file
-  sudo: yes
-  copy: src=rc.local
-        dest=/etc/rc.local
-        owner=root
-        group=root
-
-
-- name: Creating maxPerformance script (Step-1)
+- name: Configuring for maxPerformance (Step-1)
   when: dirExist|success
   sudo: yes
   copy: src=scripts/maxPerformance.sh
@@ -26,6 +18,16 @@
         owner=root
         group=root
         mode="u=rwx"
+  register: scriptExist
+
+
+- name: Configuring for maxPerformance (Step-2)
+  when: scriptExist|success
+  sudo: yes
+  copy: src=rc.local
+        dest=/etc/rc.local
+        owner=root
+        group=root
 
 
 - name: Disable USB Autosuspend Mode [Step-1]
@@ -57,4 +59,6 @@
         owner=root
         group=root
 
-
+- name: Change jetson HostName
+  sudo: yes
+  shell: sed -i 's/127.0.1.1 tegra-ubuntu/127.0.1.1 jetson-tk1/' /etc/hosts && echo {{hostname}} > /etc/hostname

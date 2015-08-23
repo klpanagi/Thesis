@@ -113,6 +113,11 @@ if ! shopt -oq posix; then
   fi
 fi
 
+## Cuda Related Enviroment Setup ##
+export PATH=/opt/cuda/bin:${PATH}
+export LD_LIBRARY_PATH=/opt/cuda/lib:${LD_LIBRARY_PATH}
+export __GL_PERFMON_MODE=1
+## ############################ ##
 
 ################################ PS1 ###########################
 
@@ -206,14 +211,8 @@ export EDITOR="vim"
 
 
 ## Compiler
-export CC=/usr/bin/gcc
-export CXX=/usr/bin/g++
+export CC=/usr/bin/clang
+export CXX=/usr/bin/clang++
 
 ## Add to PKG_CONFIG_PATH
 export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/usr/lib/pkgconfig:/usr/lib/arm-linux-gnueabihf/pkgconfig
-
-## Cuda Related Enviroment Setup ##
-export PATH=/usr/local/cuda-6.5/bin:${PATH}
-export LD_LIBRARY_PATH=/usr/local/cuda-6.5/lib:${LD_LIBRARY_PATH}
-export __GL_PERFMON_MODE=1
-## ############################ ##

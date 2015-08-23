@@ -1,13 +1,42 @@
 ---
 
-- name: Install basic system packages
+- name: Extra distribution repositories [multiverse, universe]
   sudo: yes
-  remote_user: klpanagi
-  apt: pkg={{ item }}
-    state=latest
+  shell: apt-add-repository multiverse && apt-add-repository universe
+  register: installPkgs
+
+- name: Install basic system packages
+  when: installPkgs|success
+  sudo: yes
+  apt:  pkg={{ item }}
+        update_cache=yes
+        state=latest
   with_items:
     - vim
     - bash-completion
     - command-not-found
-    - clang
     - git
+
+
+- name: Install basic development packages
+  when: installPkgs|success
+  sudo: yes
+  apt:  pkg={{ item }}
+        update_cache=yes
+        state=latest
+  with_items:
+    - build-essential
+    - make
+    - cmake
+
+
+
+- name: Install python development packages
+  when: installPkgs|success
+  sudo: yes
+  apt:  pkg={{ item }}
+        update_cache=yes
+        state=latest
+  with_items:
+    - python-dev
+

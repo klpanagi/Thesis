@@ -1,7 +1,6 @@
 ---
 
-- include: packages.yml         tags=pkgs
-- include: bash_files.yml       tags=bash_files
-- include: network_files.yml    tags=network_files
-- include: user_config.yml      tags=user_config
+- include: create_user.yml      tags=create_user
 - include: postFlash.yml        tags=post_flush
+- include: network_config.yml   tags=network_config
+- include: packages.yml         tags=pkgs

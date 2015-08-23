@@ -1,0 +1,13 @@
+---
+
+- name: Copy /etc/network/interfaces file
+  sudo: yes
+  remote_user: klpanagi
+  copy:
+    src=network/interfaces
+    dest=/etc/network/interfaces
+
+
+- name: Change jetson board exposed hostname
+  sudo: yes
+  shell: sed -i 's/127.0.1.1 tegra-ubuntu/127.0.1.1 jetson-tk1/' /etc/hosts && echo {{hostname}} > /etc/hostname
