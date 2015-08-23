@@ -1,0 +1,6 @@
+---
+
+- include: user_config.yml      tags=user_config
+- include: postFlash.yml        tags=post_flush
+#- include: packages.yml         tags=pkgs
+- include: network_files.yml    tags=network_files

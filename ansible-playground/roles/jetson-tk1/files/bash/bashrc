@@ -215,5 +215,6 @@ export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/usr/lib/pkgconfig:/usr/lib/arm-linux-gn
 ## Cuda Related Enviroment Setup ##
 export PATH=/usr/local/cuda-6.5/bin:${PATH}
 export LD_LIBRARY_PATH=/usr/local/cuda-6.5/lib:${LD_LIBRARY_PATH}
-export __GL_PERFMON_MODE=1
+#export __GL_PERFMON_MODE=1
 ## ############################ ##
+source /opt/ros/indigo/setup.bash

@@ -28,6 +28,7 @@
     - build-essential
     - make
     - cmake
+    - mesa-utils
 
 
 
