@@ -1,0 +1,13 @@
+---
+
+- name: Disable USB Autosuspend Mode
+  sudo: yes
+  shell:
+    grep -q "usbcore.autosuspend=-1" /boot/extlinux/extlinux.conf || sed -i '$s/$/ usbcore.autosuspend=-1/' /boot/extlinux/extlinux.conf &> /dev/null
+
+
+- name: Enable USB 3.0 Support [Step-2]
+  sudo: yes
+  shell: sed -i 's/usb_port_owner_info=0/usb_port_owner_info=2/' /boot/extlinux/extlinux.conf
+
+

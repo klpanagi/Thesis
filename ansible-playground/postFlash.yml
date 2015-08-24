@@ -1,0 +1,7 @@
+
+---
+- hosts: jetson-tk1
+  remote_user: ubuntu
+  roles:
+    - postFlash
+

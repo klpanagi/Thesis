@@ -11,5 +11,6 @@
 #
 # Turn up the CPU and GPU for max performance
 /usr/local/postFlash/maxPerformance.sh
+ntpdate-debian
 
 exit 0

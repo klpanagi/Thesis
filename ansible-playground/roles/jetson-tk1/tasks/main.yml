@@ -1,6 +1,0 @@
----
-
-- include: create_user.yml      tags=create_user
-- include: postFlash.yml        tags=post_flush
-- include: network_config.yml   tags=network_config
-- include: packages.yml         tags=pkgs

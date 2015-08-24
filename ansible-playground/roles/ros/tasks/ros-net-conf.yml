@@ -1,0 +1,15 @@
+---
+
+- name: Transferring ros-net-conf script
+  sudo: no
+  copy:
+    src=ros-net-conf.sh
+    dest=/home/klpanagi/scripts/
+    owner=klpanagi
+    group=klpanagi
+    mode="u=rwx"
+
+- name: Append loading ros-net-conf in ~/.bashrc
+  sudo: no
+  shell:
+    grep -q "source ~/scripts/ros-net-conf.sh" /home/klpanagi/.bashrc || echo "source ~/scripts/ros-net-conf.sh" >> /home/klpanagi/.bashrc

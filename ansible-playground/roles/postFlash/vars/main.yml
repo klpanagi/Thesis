@@ -3,3 +3,6 @@
 hostname: "jetson-tk1"
 admin_username: "klpanagi"
 admin_password: "$6$rounds=656000$EGeZ9f.JnIIMbSs/$62huZfpNARUsnAIreY47BHQVQXtp4dDjgsRuQg85vaUsKSU2cb9oeKx08DRn6551LNuR8eclSAcb1wWLuC2BF/"
+
+default_user: "ubuntu"
+default_user_pass: "$6$rounds=656000$nZME8mW6CUmgbswc$U1K0RjopnQNfRXteXxymw3rQ59pe1bE/dWe2HT5D0mEGW.obeWkNsuM/XeGDH4Kmtt8r8hVsf9xshX7uM0apg0" 

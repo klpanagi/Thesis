@@ -1,0 +1,25 @@
+---
+
+- name: Installing cuda libraries and drivers
+  sudo: yes
+  script:
+    cuda/cuda-6.5.sh
+  register: cudaInstalled
+
+- name: Installing OpenGL dev libraries
+  when: cudaInstalled|success
+  sudo: yes
+  apt:
+    pkg={{ item }}
+    update_cache=yes
+    state=latest
+  with_items:
+    - freeglut3-dev
+    - build-essential
+    - libx11-dev
+    - libxmu-dev
+    - libxi-dev
+    - libgl1-mesa-glx
+    - libglu1-mesa
+    - libglu1-mesa-dev
+

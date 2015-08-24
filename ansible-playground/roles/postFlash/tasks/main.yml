@@ -1,6 +1,9 @@
 ---
 
-- include: user_config.yml      tags=user_config
-- include: postFlash.yml        tags=post_flush
+#- include: userConf.yml         tags=userConf
+#- include: maxPerformance.yml   tags=maxPerformace
+#- include: usb3.yml             tags=usb3Conf
+#- include: network.yml          tags=networkConf
+#- include: env.yml              tags=env.yml
 #- include: packages.yml         tags=pkgs
-- include: network_files.yml    tags=network_files
+- include: cuda.yml             tags=cudaInstall

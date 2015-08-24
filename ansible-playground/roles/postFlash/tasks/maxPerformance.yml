@@ -1,0 +1,31 @@
+---
+
+- name: Creating dir for MaxPerformance scripts
+  sudo: yes
+  file: path=/usr/local/postFlash
+        state=directory
+        recurse=yes
+        owner=root
+        group=root
+  register: dirExist
+
+
+- name: Updating /etc/rc.local file
+  sudo: yes
+  copy: src=rc.local
+        dest=/etc/rc.local
+        owner=root
+        group=root
+
+
+- name: Creating maxPerformance script
+  when: dirExist|success
+  sudo: yes
+  copy: src=scripts/maxPerformance.sh
+        dest=/usr/local/postFlash/maxPerformance.sh
+        owner=root
+        group=root
+        mode="u=rwx"
+
+
+
