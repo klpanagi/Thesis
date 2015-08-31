@@ -1,0 +1,6 @@
+---
+
+- name: Prevent libglx.so from being clobbered on future updates
+  sudo: yes
+  shell:
+    apt-mark hold xserver-xorg-core

@@ -1,6 +1,0 @@
-
----
-- hosts: jetson-tk1
-  roles:
-    - jetson-tk1
-
