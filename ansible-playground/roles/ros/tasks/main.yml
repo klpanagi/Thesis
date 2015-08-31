@@ -1,4 +1,4 @@
 ---
 
-#- include: ros-packages.yml   tags=rosPackages
+- include: ros-packages.yml   tags=rosPackages
 - include: ros-net-conf.yml   tags=rosNet

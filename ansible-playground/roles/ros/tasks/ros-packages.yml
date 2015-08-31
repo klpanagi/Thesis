@@ -6,9 +6,9 @@
         update_cache=yes
         state=latest
   with_items:
-    - ros-indigo-rgbd-launch
-    - ros-indigo-openni2-camera
-    - ros-indigo-openni2-launch
+    #- ros-indigo-rgbd-launch
+    #- ros-indigo-openni2-camera
+    #- ros-indigo-openni2-launch
     - ros-indigo-rqt
     - ros-indigo-rqt-common-plugins
     - ros-indigo-rqt-robot-plugins
