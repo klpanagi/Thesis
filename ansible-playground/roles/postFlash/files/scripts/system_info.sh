@@ -39,7 +39,7 @@ version=$(uname -v)
 hardware=$(uname -m)
 release=$(uname -r)
 mem=$(free -omt)
-disk=$(df -lh)
+disk=$(df -lh 2> /dev/null)
 hname=$(uname -n)
 cpu=$(more /proc/cpuinfo | grep 'cpu MHz' | cut -d: -f2 | awk 'NR==3')
 cpu_cores=$(cat /proc/cpuinfo | grep "siblings" | sort -u | cut -d: -f2)
@@ -57,7 +57,12 @@ ifaces=$(ifconfig -a | sed 's/[ \t].*//;/^$/d')
 
 #Display information to user...
 #------------------------------
-echo -e "${YELLOW}<System Information>${RESET}"
+echo -e "${YELLOW}-----------------<User Information>-----------------${RESET}"
+echo -e "${BYELLOW}Currently logged in as${RESET}   **${BGREEN}$who${RESET}**"
+echo -e "${BYELLOW}Originally logged in as${RESET}  **${BBLUE}$lwho${RESET}**"
+echo -e "${BYELLOW}Hostname${RESET}                 **${BPURPLE}$hname${RESET}**"
+echo -e ""
+echo -e "${YELLOW}----------------<System Information>----------------${RESET}"
 echo -e "  * ${BCYAN}OS Type${RESET}         --->  ${BRED}$name${RESET}"
 #echo -e "Distro.                 : $distro"
 echo -e "  * ${BCYAN}Kernel Version${RESET}  --->  ${BRED}$version${RESET}"
@@ -68,11 +73,7 @@ echo -e "  * ${BCYAN}CPU Cores${RESET}       --->  ${BRED}$cpu_cores${RESET}"
 echo -e "  * ${BCYAN}CPU Model${RESET}       --->  ${BRED}$cpumodel${RESET}"
 echo -e "  * ${BCYAN}CPU Speed${RESET}       --->  ${BRED}$cpu MHz${RESET}"
 echo -e ""
-echo -e "${BYELLOW}Currently logged in as${RESET}   **${BGREEN}$who${RESET}**"
-echo -e "${BYELLOW}Originally logged in as${RESET}  **${BBLUE}$lwho${RESET}**"
-echo -e "${BYELLOW}Hostname${RESET}                 **${BPURPLE}$hname${RESET}**"
-echo -e ""
-echo -e "${YELLOW}<Network Interfaces>${RESET}"
+echo -e "${YELLOW}----------------<Network Information>---------------${RESET}"
 for i in ${ifaces}; do
   if [ "${i}" = "lo" ]; then
     continue
@@ -81,14 +82,14 @@ for i in ${ifaces}; do
   echo -e "  *${BCYAN} ${i} ------> ${BGREEN}${ip}${RESET}"
 done
 echo -e ""
-echo -e "${YELLOW}<Memory Information>${RESET}"
+echo -e "${YELLOW}----------------<Memory Information>----------------${RESET}"
 echo -e "  * ${BCYAN}Total Memory${RESET}  ---> ${BGREEN}$total_mem${RESET}"
 echo -e "  * ${BCYAN}Memory usage${RESET}  ---> ${BGREEN}${mem_use}%${RESET}"
 #echo -e "  * ${BCYAN}DIMM Slots${RESET}  ---> ${BGREEN}${mem_dimm_slots}%${RESET}"
 #echo -e "  * ${BCYAN}System Memory in MB${RESET}"
 #echo -e "$mem"
 echo -e ""
-echo -e "${YELLOW}<Hard Disk(s) Information>${RESET}"
+echo -e "${YELLOW}-------------<Hard Disk(s) Information>-------------${RESET}"
 echo -e "$disk"
 echo
 #echo

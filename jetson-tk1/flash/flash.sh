@@ -42,8 +42,8 @@ sleep 2
 ## ====================================================== ##
 echo -e "\r\n${BBLUE}[Step-1]${YELLOW} Downloading and extracting L4T Release ${RELEASE}${RESET}"
 mkdir -p /tmp/jetson-tk1-flash/ && cd /tmp/jetson-tk1-flash
-#wget ${L4T_Url}
-#wget ${ROOTFS_Url}
+wget ${L4T_Url}
+wget ${ROOTFS_Url}
 
 sudo tar xpf ${L4T_FILE}
 if [ $? == 1 ]; then  # Check exit status
@@ -78,5 +78,6 @@ MSG+="${RESET}"
 echo -e ${MSG}
 read cont
 
+## Flash with complete eMMC space support.
 sudo ./flash.sh -S 14580MiB jetson-tk1 mmcblk0p1
 ## =========================================== ##
