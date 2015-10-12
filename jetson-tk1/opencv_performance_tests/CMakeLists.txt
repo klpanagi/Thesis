@@ -19,6 +19,7 @@ if(REPORT_FULL)
 endif(REPORT_FULL)
 
 add_subdirectory(testBase)
-add_subdirectory(cvtColorTest)
 add_subdirectory(testEngine)
+add_subdirectory(cvtColorTest)
+add_subdirectory(sobelTest)
 

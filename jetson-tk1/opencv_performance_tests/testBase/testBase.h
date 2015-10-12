@@ -28,6 +28,7 @@ class TestBase
 
   private:
     void calcExecAvg(void);
+    void initGPU(void);
 };
 
 #endif

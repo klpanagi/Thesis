@@ -2,7 +2,28 @@
 
 
 TestBase::TestBase()
-{}
+{
+  initGPU();
+}
+
+void TestBase::initGPU(void)
+{
+  int cudaDevices = 0;
+  if( ! (cudaDevices = cv::gpu::getCudaEnabledDeviceCount()) )
+  {
+    std::cout << "No cuda enabled device found\n";
+    std::exit(-1);
+  }
+  cv::gpu::setDevice(0);
+  cv::gpu::DeviceInfo deviceInfo(0);
+
+  std::cout << "Nvidia cuda enabled device information:\n" <<
+    "---------------------------------------" << std::endl <<
+    "-Name: " << deviceInfo.name() << std::endl <<
+    "-Version: " << deviceInfo.majorVersion() << " -- " << deviceInfo.minorVersion() << std::endl <<
+    "-MultiProcessorCount: " << deviceInfo.multiProcessorCount() << std::endl <<
+    "-Total Memory: " << deviceInfo.totalMemory() << std::endl;
+}
 
 
 void TestBase::calcExecAvg(void)
@@ -23,9 +44,8 @@ void TestBase::calcExecAvg(void)
 void TestBase::results(void)
 {
   std::vector<double>::iterator itGPU, itCPU;
-  //double avgCPU = 0.0, avgGPU = 0.0;
-  // using double iteration for loop
   #ifdef REPORT_FULL
+    // using double iteration for loop
     for(itGPU = gpuExec_.begin(), itCPU = cpuExec_.begin();
         itGPU < gpuExec_.end(); itCPU++, itGPU++
        )

@@ -1,58 +1,99 @@
-#include "opencv2/imgproc/imgproc.hpp"
-#include "opencv2/highgui/highgui.hpp"
-#include "opencv2/gpu/gpu.hpp"
-#include <stdlib.h>
-#include <iostream>
+#include "sobelTest.h"
 
-using namespace cv;
-
-
-cv::Mat& sobelCPU(cv::Mat& srcImage)
+SobelTest::SobelTest(char* _imageLoad)
+  :
+    imageLoad_(_imageLoad)
 {
-  static cv::Mat grayHostCPU;
-  cv::cvtColor(srcImage, grayHostCPU, CV_RGB2GRAY);
-
-  return grayHostCPU;
+  srcImage_ = cv::imread(imageLoad_, CV_LOAD_IMAGE_COLOR);
+  numExec_ = 1;
+  if( !srcImage_.data )
+  {
+    std::cout << "Error on loading image data\n";
+    throw "Error on loading image data";
+  }
 }
 
 
-cv::Mat& sobelGPU(cv::Mat& srcImage)
+SobelTest::SobelTest(char* _imageLoad, uint16_t _numExec)
+  :
+    imageLoad_(_imageLoad),
+    ddepth_(CV_16S),
+    scale_(1),
+    delta_(0)
 {
-  cv::gpu::GpuMat srcDevice(srcImage);
+  numExec_ = _numExec;
+  srcImage_ = cv::imread(imageLoad_, CV_LOAD_IMAGE_COLOR);
+  if( !srcImage_.data )
+  {
+    std::cout << "Error on loading image data\n";
+    throw "Error on loading image data";
+  }
+}
+
+
+void SobelTest::runGPU(void)
+{
+  // Transfer source image to the GPU.
+  cv::gpu::GpuMat srcDevice(srcImage_);
   cv::gpu::GpuMat grayDevice;
   cv::gpu::cvtColor(srcDevice, grayDevice, CV_RGB2GRAY);
 
-  static cv::Mat grayHostGPU(grayDevice);
+  cv::gpu::GpuMat gradX, gradY;
 
-  return grayHostGPU;
+  // Gradient X
+  cv::gpu::Sobel( grayDevice, gradX, ddepth_, 1, 0, 3, scale_, delta_, cv::BORDER_DEFAULT );
+
+  // Gradient Y. Perform with ddepth=CV_16S for higher accuracy on
+  // convolution operations. Sobel uses a 3x3 kernel.
+  cv::gpu::Sobel( grayDevice, gradY, ddepth_, 1, 0, 3, scale_, delta_, cv::BORDER_DEFAULT );
+
+  // Calculate the absolute values of gradX and gradY.
+  cv::gpu::abs( gradY, gradY );
+  cv::gpu::abs( gradX, gradX );
+
+  gradX.convertTo(gradX, CV_8U);
+  gradY.convertTo(gradY, CV_8U);
+
+  cv::gpu::GpuMat resImageGPU;
+
+  cv::gpu::addWeighted( gradX, 0.5, gradY, 0.5, 0, resImageGPU);
+  resImageGPU.download(resImageGPU_);
+  //resImageGPU_.convertTo(resImageGPU_, CV_8U, 1, 0);
 }
 
 
-/** @function main */
-int main( int argc, char** argv )
+void SobelTest::runCPU(void)
 {
-  if(argc != 2) { std:: cout << "Invalid number of arguments\n"; }
-  cv::Mat srcImage = imread(argv[1], CV_LOAD_IMAGE_COLOR);
-  if( !srcImage.data )
-  {
-    std::cout << "Error on loading image data\n";
-    return -1;
-  }
+  cv::Mat grayDevice;
+  cvtColor( srcImage_, grayDevice, CV_RGB2GRAY );
+  /// Generate grad_x and grad_y
+  cv::Mat gradX, gradY;
+  cv::Mat absGradX, absGradY;
 
-  //std::stringstream ss;
-  double t = (double)cv::getTickCount();  // Measure time.
-  cv::Mat gray = cvtColorGPU(srcImage);
-  double gpuExecTime = ((double)cv::getTickCount() - t)/cv::getTickFrequency();
+  // Gradient X
+  cv::Sobel( grayDevice, gradX, ddepth_, 1, 0, 3, scale_, delta_, cv::BORDER_DEFAULT );
+  cv::convertScaleAbs( gradX, absGradX );
 
-  t = (double)cv::getTickCount();  // Measure time.
-  gray = cvtColorGPU(srcImage);
-  double cpuExecTime = ((double)cv::getTickCount() - t)/cv::getTickFrequency();
+  // Gradient Y
+  cv::Sobel( grayDevice, gradY, ddepth_, 1, 0, 3, scale_, delta_, cv::BORDER_DEFAULT );
+  cv::convertScaleAbs( gradY, absGradY );
 
-  std::cout << "Color Conversion Execution time results:\n" << "- CPU: " <<
-    cpuExecTime << "\n" << "- GPU: " << gpuExecTime << std::endl;
+  cv::addWeighted( absGradX, 0.5, absGradY, 0.5, 0, resImageCPU_ );
+}
 
-  //namedWindow( "CVTCOLOR-GPU", CV_WINDOW_AUTOSIZE );
-  //imshow( "CVTCOLOR-GPU", gray );
-  //waitKey(0);
-  return 0;
+
+void SobelTest::showImage(void)
+{
+  char* inputWindow = "Input Image (Preprocessed)";
+  char* outputCPUWindow = "Sobel Filtered Image (CPU Routines)";
+  char* outputGPUWindow = "Sobel Filtered Image (GPU Routines)";
+  cv::namedWindow( inputWindow, CV_WINDOW_AUTOSIZE );
+  cv::namedWindow( outputCPUWindow, CV_WINDOW_AUTOSIZE );
+  cv::namedWindow( outputGPUWindow, CV_WINDOW_AUTOSIZE );
+
+  cv::imshow( inputWindow, srcImage_ );
+  cv::imshow( outputCPUWindow, resImageCPU_ );
+  cv::imshow( outputGPUWindow, resImageGPU_ );
+
+  cv::waitKey(0);
 }
