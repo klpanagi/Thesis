@@ -1,5 +1,6 @@
 #include "testBase.h"
 
+
 TestBase::TestBase()
 {}
 
@@ -46,3 +47,21 @@ void TestBase::results(void)
 }
 
 
+void TestBase::execute(void)
+{
+  int runIndex = 0;
+  double t1, t2, execTimeCPU, execTimeGPU;
+
+  for(int ii = 0; ii < numExec_; ii++)
+  {
+    t1 = (double)cv::getTickCount();  // Measure time.
+    runCPU();
+    execTimeCPU = ((double)cv::getTickCount() - t1)/cv::getTickFrequency();
+    t2 = (double)cv::getTickCount();  // Measure time.
+    runGPU();
+    execTimeGPU = ((double)cv::getTickCount() - t2)/cv::getTickFrequency();
+
+    gpuExec_.push_back(execTimeGPU);
+    cpuExec_.push_back(execTimeCPU);
+  }
+}

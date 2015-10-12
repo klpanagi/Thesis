@@ -1,4 +1,5 @@
-#include "cvtColorTest.cpp"
+#include "cvtColorTest.h"
+#include "../testEngine/testEngine.h"
 
 using namespace cv;
 
@@ -21,8 +22,8 @@ int main( int argc, char** argv )
   }
   int numRuns = (argc == 2) ? 1 :  parseInt(argv[2]);
   CvtColorTest test(argv[1], numRuns);
-  test.execute();
-  test.results();
+
+  TestEngine::runTest(&test);
 
   return 0;
 }

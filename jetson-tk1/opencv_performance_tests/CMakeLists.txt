@@ -13,11 +13,12 @@ else()
   message(STATUS "The compiler ${CMAKE_CXX_COMPILER} has no C++11 support. Please use a different C++ compiler.")
 endif()
 
-option(REPORT_FULL "REPORT_FULL" OFF)
+option(REPORT_FULL "REPORT_FULL" ON)
 if(REPORT_FULL)
   add_definitions(-DREPORT_FULL)
 endif(REPORT_FULL)
 
 add_subdirectory(testBase)
 add_subdirectory(cvtColorTest)
+add_subdirectory(testEngine)
 

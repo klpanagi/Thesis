@@ -1,15 +1,23 @@
+#ifndef TESTBASE_H
+#define TESTBASE_H
 #include <iostream>
 #include <stdlib.h>
 #include <vector>
 #include <cstdint>
 
+#include "opencv2/imgproc/imgproc.hpp"
+#include "opencv2/highgui/highgui.hpp"
+#include "opencv2/gpu/gpu.hpp"
 
 class TestBase
 {
   public:
     TestBase();
     void results(void);
+    virtual void execute(void);
     virtual ~TestBase(void){};
+    virtual void runGPU(void) = 0;
+    virtual void runCPU(void) = 0;
 
   protected:
     std::vector<double> gpuExec_;
@@ -22,4 +30,4 @@ class TestBase
     void calcExecAvg(void);
 };
 
-
+#endif
