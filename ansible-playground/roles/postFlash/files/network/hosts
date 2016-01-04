@@ -1,0 +1,4 @@
+127.0.0.1       localhost jetson-tk1
+127.0.1.1       jetson-tk1-lo
+155.207.33.185  klpanagi-desktop
+10.1.1.1        tornator
