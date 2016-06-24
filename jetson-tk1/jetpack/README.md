@@ -1,0 +1,3 @@
+The JetPack for L4T (Jetson Development Pack) is an on-demand all-in-one package that bundles and installs all software tools required to develop for the NVIDIA® Jetson Embedded Platform (including flashing your Jetson Development Kit with the latest OS images). JetPack includes host and target development tools, APIs and packages (OS images, tools, APIs, middleware, samples, documentation including compiling samples) to enable developers to jump start their development environment for developing with the Jetson Embedded Platform.
+
+[Get-From-here](https://developer.nvidia.com/embedded/jetpack)

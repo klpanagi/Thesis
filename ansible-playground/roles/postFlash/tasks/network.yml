@@ -1,12 +1,12 @@
 ---
 
-- name: Copy /etc/network/interfaces file
-  sudo: yes
-  copy:
-    src=network/interfaces
-    dest=/etc/network/interfaces
-    owner=root
-    group=root
+#- name: Copy /etc/network/interfaces file
+  #sudo: yes
+  #copy:
+    #src=network/interfaces
+    #dest=/etc/network/interfaces
+    #owner=root
+    #group=root
 
 
 - name: Change jetson board exposed hostname

@@ -1,44 +1,41 @@
 ---
 
-#- name: Set default user [ubuntu] password
-  #sudo: yes
-  #sudo_user: root
-  #user:
-    #name={{default_user}}
-    #password={{default_user_pass}}
-    #shell=/bin/bash
-
-- name: Create user klpanagi
-  sudo: yes
-  sudo_user: root
+- name: Create user cyanms
+  become: yes
+  become_user: root
   user: name={{admin_username}}
         password={{admin_password}}
         shell=/bin/bash
         groups=sudo,dialout,video,audio,adm
         append=yes
+        createhome=yes
   register: userExist
 
 
-- name: Create scripts directory
-  when: userExist|success
-  sudo: yes
-  file: path=/home/klpanagi/scripts
-        state=directory
-        recurse=yes
-        owner=klpanagi
-        group=klpanagi
-  register: scriptdirexist
+#- name: Create scripts directory
+  #when: userExist|success
+  #become: yes
+  #become_user: ubuntu
+  #become_method: sudo
+  #file: path=/home/klpanagi/scripts
+        #state=directory
+        #recurse=yes
+        #owner=klpanagi
+        #group=klpanagi
+  #register: scriptdirexist
 
 
-- name: Transfer system_info script
-  when: scriptdirexist|success
-  sudo: yes
-  copy:
-    src=scripts/system_info.sh
-    dest=/home/klpanagi/scripts/system_info.sh
-    owner=klpanagi
-    group=klpanagi
-    mode="u=rwx"
+#- name: Transfer system_info script
+  #when: scriptdirexist|success
+  #become: yes
+  #become_user: ubuntu
+  #become_method: sudo
+  #copy:
+    #src=scripts/system_info.sh
+    #dest=/home/klpanagi/scripts/system_info.sh
+    #owner=klpanagi
+    #group=klpanagi
+    #mode="u=rwx"
 
 #- name: Copy tegrastats bin at klpanagi user space
   #when: scriptdirexist|success
@@ -49,24 +46,3 @@
     #owner=klpanagi
     #group=klpanagi
     #mode="u=wrx"
-
-## Setup Bash Environment ##
-
-- name: Copy bashrc file for user klpanagi
-  when:  userExist|success
-  sudo: yes
-  copy:
-    src=bash/bashrc
-    dest=/home/klpanagi/.bashrc
-    owner=klpanagi
-    group=klpanagi
-
-
-- name: Copy bash_logout file for user klpanagi
-  when: userExist|success
-  sudo: yes
-  copy:
-    src=bash/bash_logout
-    dest=/home/klpanagi/.bash_logout
-    owner=klpanagi
-    group=klpanagi

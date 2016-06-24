@@ -1,10 +1,9 @@
 ---
 
-- include: userConf.yml         tags=userConf
-- include: maxPerformance.yml   tags=maxPerformace
-- include: usb3.yml             tags=usb3Conf
-- include: network.yml          tags=networkConf
-- include: env.yml              tags=env.yml
-- include: packages.yml         tags=pkgs
-- include: cuda.yml             tags=cudaInstall
-- include: holdXorgCore.yml     tags=holdXorgCore
+- include: userConf.yml
+- include: packages.yml
+- include: maxPerformance.yml
+- include: usb3.yml
+- include: holdXorgCore.yml
+- include: env.yml
+#- include: cuda.yml             tags=cudaInstall

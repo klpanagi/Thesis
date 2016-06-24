@@ -1,7 +1,8 @@
 ---
 
 - name: Creating dir for MaxPerformance scripts
-  sudo: yes
+  become: yes
+  become_user: root
   file: path=/usr/local/postFlash
         state=directory
         recurse=yes
@@ -11,7 +12,8 @@
 
 
 - name: Updating /etc/rc.local file
-  sudo: yes
+  become: yes
+  become_user: root
   copy: src=rc.local
         dest=/etc/rc.local
         owner=root
@@ -20,7 +22,8 @@
 
 - name: Creating maxPerformance script
   when: dirExist|success
-  sudo: yes
+  become: yes
+  become_user: root
   copy: src=scripts/maxPerformance.sh
         dest=/usr/local/postFlash/maxPerformance.sh
         owner=root

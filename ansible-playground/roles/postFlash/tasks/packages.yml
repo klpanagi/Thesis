@@ -1,43 +1,38 @@
 ---
 
 - name: Extra distribution repositories [multiverse, universe]
-  sudo: yes
+  become: yes
+  become_user: root
   shell: apt-add-repository multiverse && apt-add-repository universe
   register: installPkgs
 
-- name: Install basic system packages
+
+- name: Install basic tools
   when: installPkgs|success
-  sudo: yes
+  become: yes
+  become_user: root
   apt:  pkg={{ item }}
         update_cache=yes
         state=latest
   with_items:
     - vim
-    - bash-completion
-    - command-not-found
     - git
+    - zsh # \m/
+    - curl
+    - wget
 
 
-- name: Install basic development packages
+- name: Install dev-utils
   when: installPkgs|success
-  sudo: yes
+  become: yes
+  become_user: root
   apt:  pkg={{ item }}
         update_cache=yes
         state=latest
   with_items:
     - build-essential
-    #- make
-    #- cmake
-    #- mesa-utils
-
-
-
-- name: Install python development packages
-  when: installPkgs|success
-  sudo: yes
-  apt:  pkg={{ item }}
-        update_cache=yes
-        state=latest
-  with_items:
     - python-dev
+    - make
+    - cmake
+    #- mesa-utils
 
