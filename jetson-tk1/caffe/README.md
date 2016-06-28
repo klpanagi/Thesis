@@ -18,26 +18,35 @@ As caffe does not support backward compatiblitity for the cuDNN enabled implemen
 it is necessary to use a caffe fork that supports it.
 
 
-##### Step#1: Clone my caffe fork repository:
+##### Step#1: Install required dependencies
+
+```bash
+sudo apt-get install libprotobuf-dev protobuf-compiler gfortran \
+libboost-all-dev cmake libleveldb-dev libsnappy-dev \
+libatlas-base-dev libhdf5-serial-dev libgflags-dev \
+libgoogle-glog-dev liblmdb-dev -y
+```
+
+##### Step#2: Clone my caffe fork repository:
 
 ```bash
 git clone -b cudnn-jetsontk1 --single-branch  git@github.com:klpanagi/caffe-cudnn-jetsontk1.git
 ```
 
-##### Step#2: Create the Makefile.config file:
+##### Step#3: Create the Makefile.config file:
 
 ```bash
 cd caffe-cudnn-jetsontk1
 cp Makefile.config.example Makefile.config
 ```
 
-##### Step#3: Uncomment the following line (5) from **Makefile.config** to enable cuDNN support:
+##### Step#4: Uncomment the following line (5) from **Makefile.config** to enable cuDNN support:
 
 ```
 # USE_CUDNN := 1
 ```
 
-##### Step#4: Build caffe with cuDNN support:
+##### Step#5: Build caffe with cuDNN support:
 
 **Compilation with Make**:
 
@@ -62,5 +71,10 @@ Optionally install system-wide
 
 ```bash
 make install
-make runtest
+```
+
+##### Step#6: Run tests
+
+```bash
+make -j 4 runtest
 ```
