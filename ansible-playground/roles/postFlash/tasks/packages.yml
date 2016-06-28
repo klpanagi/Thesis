@@ -34,5 +34,6 @@
     - python-dev
     - make
     - cmake
+    - cmake-curses-gui
     #- mesa-utils
 
