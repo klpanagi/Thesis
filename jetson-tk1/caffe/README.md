@@ -41,12 +41,16 @@ cp Makefile.config.example Makefile.config
 
 **Compilation with Make**:
 
+Compilation using Make is not reccomended for using caffe in your Project.
+
 ```bash
 make -j 4 all
 make -j 4 runtest
 ```
 
-**CMake build**:
+**CMake build - (Recommended)**:
+
+See [here](https://github.com/BVLC/caffe/pull/1667) for options and details
 
 ```bash
 mkdir build && cd build
