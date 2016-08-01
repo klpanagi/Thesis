@@ -1,0 +1,15 @@
+[global]
+floatX = float32
+device = gpu0
+optimizer_including = cudnn
+force_device = True
+allow_gc = True
+
+[dnn]
+enabled = True
+
+[nvcc]
+fastmath = True
+
+[lib]
+cnmem = 0.5
