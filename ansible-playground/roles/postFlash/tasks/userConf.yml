@@ -5,7 +5,7 @@
   become_user: root
   user: name={{admin_username}}
         password={{admin_password}}
-        shell=/bin/bash
+        shell=/bin/zsh
         groups=sudo,dialout,video,audio,adm
         append=yes
         createhome=yes

@@ -1,7 +1,7 @@
 ---
 
-- include: userConf.yml
 - include: packages.yml
+- include: userConf.yml
 - include: maxPerformance.yml
 - include: usb3.yml
 - include: holdXorgCore.yml
