@@ -1,6 +1,10 @@
 #!/bin/bash -ie
 
 function _build_numpy_optimized () {
+  #
+  PREFIX=""
+  CORES=4
+  BLAS="openblas"
   # Deps
   sudo apt-get update && sudo apt-get install python-dev gfortran gcc g++
 
@@ -12,7 +16,7 @@ function _build_numpy_optimized () {
   # REGEX \m/
   sed -i '/\[openblas\]/{s/^\#.//;n;s/^\#.//;n;s/^\#.//;n;s/^\#.//;n;s/^\#.//}' site.cfg
   python setup.py config  # Configure
-  python setup.py build --fcompiler=gnu95  # specify gfortran as the compiler
+  python setup.py build -j ${CORES} --fcompiler=gnu95  # specify gfortran as the compiler
   python setup.py install --user  # Install in user space
 }
 

@@ -63,7 +63,7 @@ $ python `python -c "import os, theano; print(os.path.dirname(theano.__file__))"
 - You can tell theano to use a different version of BLAS, in case you did not compile NumPy with a fast BLAS or if NumPy was compiled with a static library of BLAS (the latter is not supported in Theano).
 
 
-### OpenBLAS optimized for Jetson TK1
+### OpenBLAS
 
 Follow [these](https://github.com/xianyi/OpenBLAS/tree/armv7) to compile OpenBLAS libray on
 Jetson TK1. Building it from source allow for accelerating based on hardware.
@@ -92,7 +92,7 @@ To permanently do this for the user, append the following in the shellrc file, d
 $ export LD_LIBRARY_PATH=/opt/OpenBLAS/lib:$LD_LIBRARY_PATH
 ```
 
-### OpenBLAS run tests
+#### OpenBLAS run tests
 
 Several test routines exist for the OpenBLAS library:
 
@@ -103,19 +103,34 @@ Several test routines exist for the OpenBLAS library:
 - tests
 
 
+### ATLAS - ARM
+
+[Source #1](http://www.vesperix.com/arm/atlas-arm/)
+
+> The latest version of the mainline ATLAS distribution (ATLAS 3.10) includes support for ARM NEON
+
+Pretty interesting and will will try it to compare performance with different BLAS libs, mainly OpenBLAS.
+
+**NOTE**: Make sure you have cpu-throttoling disabled before building ATLAS ([here](http://math-atlas.sourceforge.net/atlas_install/node5.html)). To disable cpu-throttling for the Jetson TK1 board
+follow [this](http://elinux.org/Jetson/Performance) guide.
+
+**TIP**: Configure to use hard floating-point ABI, aka NEON:
+
+```bash
+$ ../configure -D c -DATL_NONIEEE=1 -D c -DATL_ARM_HARDFP=1 -Si archdef 0 -Fa alg -mfloat-abi=hard
+```
+
 ## Numpy optimized for Jetson TK1
 
 [Build-from-source](http://docs.scipy.org/doc/numpy/user/building.html)
 
-We will build numpy using previously compiled optimized openBLAS library.
+We will build numpy using previously compiled BLAS library.
 
 **Note**: Latest stable numpy release working on armv7 architecture is v1.11.1!!!
 Chechout and build numpy at v1.11.1 tag
 
-The `numpy_optimized.sh` script builds numpy from source using OpenBLAS!!
 
-
-To get BLAS installation information in NumPy execute:
+To get BLAS configuration information in NumPy execute:
 
 ```bash
 $ python -c 'import numpy as np; numpy.__config__.show()'
@@ -148,6 +163,48 @@ Traceback (most recent call last):
 then the error occures because you do not have `${HOME}/.local/bin` in system PATH and this test uses the `f2py` executable that is located there.
 
 To fix the above error simply add `${HOME}/.local/bin` in the `$PATH` environmental variable.
+
+
+### Numpy compiled with OpenBLAS
+
+Using OpenBLAS with numpy is way faster especially on matrix operations (multiplication, dotproduct, etc.)
+
+
+To evaluate that Numpy was previously compiled with OpenBLAS simply watch at the output of:
+
+```bash
+$ python -c 'import numpy as np; numpy.__config__.show()'
+
+lapack_opt_info:
+    libraries = ['openblas', 'openblas']
+    library_dirs = ['/opt/OpenBLAS/lib']
+    define_macros = [('HAVE_CBLAS', None)]
+    language = c
+    runtime_library_dirs = ['/opt/OpenBLAS/lib']
+blas_opt_info:
+    libraries = ['openblas', 'openblas']
+    library_dirs = ['/opt/OpenBLAS/lib']
+    define_macros = [('HAVE_CBLAS', None)]
+    language = c
+    runtime_library_dirs = ['/opt/OpenBLAS/lib']
+openblas_info:
+    libraries = ['openblas', 'openblas']
+    library_dirs = ['/opt/OpenBLAS/lib']
+    define_macros = [('HAVE_CBLAS', None)]
+    language = c
+    runtime_library_dirs = ['/opt/OpenBLAS/lib']
+openblas_lapack_info:
+    libraries = ['openblas', 'openblas']
+    library_dirs = ['/opt/OpenBLAS/lib']
+    define_macros = [('HAVE_CBLAS', None)]
+    language = c
+    runtime_library_dirs = ['/opt/OpenBLAS/lib']
+blas_mkl_info:
+    NOT AVAILABLE
+```
+
+
+### Numpy compiled with ATLAS
 
 ### Performance tests / Benchmarks - Default blas VS optimized OpenBLAS
 
