@@ -29,9 +29,9 @@ function _build_ATLAS_optimized () {
   # Tell ATLAS not to look for a default configuration for your system, but to build from scratch
   FLAGS="-Si archdef 0 "
   # Use the hard floating point ABI and enable NEON instructions
-  FLAGS+="-D c -DATL_NONIEEE=1 -D c -DATL_ARM_HARDFP=1 -Fa alg -mfloat-abi=hard "
+  FLAGS+="-D c -DATL_NONIEEE=1 -D c -DATL_ARM_HARDFP=1 -Fa alg '-mfloat-abi=hard -fPIC' "
   # Make shared/dynamic libraries
-  FLAGS+="-Fa alg -fPIC --shared "
+  FLAGS+="--shared "
   # Building a full LAPACK library using ATLAS and netlib's LAPACK
   FLAGS+="--with-netlib-lapack-tarfile=../../lapack-3.6.1.tgz "
   # Apply installation prefix path

@@ -117,7 +117,7 @@ follow [this](http://elinux.org/Jetson/Performance) guide.
 **TIP**: Configure to use hard floating-point ABI, aka NEON:
 
 ```bash
-$ ../configure -D c -DATL_NONIEEE=1 -D c -DATL_ARM_HARDFP=1 -Si archdef 0 -Fa alg -mfloat-abi=hard
+$ ../configure -D c -DATL_NONIEEE=1 -D c -DATL_ARM_HARDFP=1 -Si archdef 0 -Fa alg '-mfloat-abi=hard -fPIC -mfpu=neon' --prefix=/opt/ATLAS3.10.3 --shared -v 2
 ```
 
 ## Numpy optimized for Jetson TK1
