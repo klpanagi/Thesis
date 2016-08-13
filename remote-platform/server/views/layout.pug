@@ -1,0 +1,22 @@
+block vars
+  - var title
+
+doctype html
+html(lang='en')
+  head
+    block meta
+      meta(charset='utf-8', name='viewport', content='width=device-width')
+    block title
+      title=title ? (siteName + ' - ' + title) : siteName
+    block css
+      link(href='static/bootstrap/dist/css/bootstrap.min.css', rel='stylesheet')
+      link(href='static/public/stylesheets/style.css', rel='stylesheet')
+      link(href='static/public/stylesheets/carousel.css', rel='stylesheet')
+    block js
+      script(src='static/jquery/dist/jquery.min.js')
+      script(src='static/bootstrap/dist/js/bootstrap.min.js')
+      script(src='static/public/build/bundle.js')
+  body
+    include navbar
+    div.container
+    block content

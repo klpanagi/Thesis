@@ -1,0 +1,32 @@
+{
+  "name": "platform-server",
+  "version": "0.0.0",
+  "description": "Remote Platform https server",
+  "main": "./bin/server.js",
+  "start": "./bin/server.js",
+  "scripts": {
+    "test": ""
+  },
+  "author": "Konstantinos Panayiotou",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "body-parser": "~1.15.0",
+    "bootstrap": "~3.3.6",
+    "cookie-parser": "^1.4.3",
+    "express": "~4.13.4",
+    "jquery": "~2.2.3",
+    "morgan": "^1.7.0",
+    "multer": "~1.1.0",
+    "pug": "^2.0.0-beta4",
+    "socket.io": "~1.4.5",
+    "socket.io-client": "~1.4.5"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-browserify": "^0.5.1",
+    "gulp-clean": "^0.3.2",
+    "gulp-rename": "^1.2.2",
+    "jshint": "^2.9.2",
+    "pm2": "~1.0.2"
+  }
+}

@@ -1,0 +1,27 @@
+extends ./layout.pug
+
+block vars
+  - var title = 'Home'
+
+block content
+
+  if user
+    h2.text-center Welcome Back, #{user}
+  else
+    h2.text-center Welcome!
+  header.carousel.slide#myCarousel&attributes({ 'data-ride': "carousel" })
+    ol.carousel-indicators
+      li.active&attributes({'data-target': "#myCarousel", 'data-slide-to': '0'})
+      li&attributes({'data-target': "#myCarousel", 'data-slide-to': '1'})
+    div.carousel-inner
+      div.item.active
+        img.img-responsive.center-block(src="static/public/images/cloud_computing_1.jpg")
+      div.item
+        img.img-responsive.center-block(src="static/public/images/taking_control.jpg")
+  if user
+    div.panel.panel-default
+      div.panel-heading Connection Information
+      div.panel-body
+        ul
+          each val, index in connectionInfo
+            li= index + ': ' + val

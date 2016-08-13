@@ -1,0 +1,17 @@
+{
+  "apps" : [
+    {
+      "name": "robot-server",
+      "watch": true,
+      "script": "./bin/server.js",
+      "exec_interpreter": "node",
+      "exec_mode": "fork",
+      "autorestart": false,
+      "env": {
+        "COMMON_VARIABLE": "true",
+        "NODE_ENV": "dev"
+      }
+    }
+  ]
+
+}
