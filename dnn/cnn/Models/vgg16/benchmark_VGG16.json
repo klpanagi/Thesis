@@ -1,0 +1,13 @@
+{
+    "cnn_model": {
+        "name": "VGG16", 
+        "num_layers": 37
+    }, 
+    "average": 0.3663315773010254, 
+    "threads": "4", 
+    "processor": "Intel(R) Core(TM) i7-6700 CPU @ 3.40GHz", 
+    "timings": [
+        0.37082505226135254, 
+        0.36183810234069824
+    ]
+}
