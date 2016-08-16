@@ -8,6 +8,8 @@ import subprocess
 import os
 import json
 
+from Utils import load_image_to_Tensor4D, tensor4D_to_img
+
 
 class Benchmark(object):
     """Benchmark runner class"""
@@ -40,9 +42,12 @@ class Benchmark(object):
 
     def _resize_img_to_fit_cnn(self, img):
         cnnInShape = self._get_model_input_shape()
+        # Resize image
         img = imresize(img, cnnInShape[2:])
+        # (height, width, 3) -> (3, width, height)
         img = np.transpose(img, (2, 0, 1))
         # Add 4rth dimension as required to create the Tensor4D
+        # (None, 3, width, height)
         img = np.expand_dims(img, axis=0)
         return img
 
@@ -50,8 +55,9 @@ class Benchmark(object):
         return self._cnnModel.input_shape
 
     def run_for_performance(self, fimg, iterations=100):
-        _img = self._load_image(fimg)
-        _img = self._resize_img_to_fit_cnn(_img)
+        inShape = self._get_model_input_shape()
+        print inShape[2:]
+        _img = load_image_to_Tensor4D(fimg, inShape[2:])
         self._print_header()
 
         timings = []
