@@ -8,7 +8,7 @@ import subprocess
 import os
 import json
 
-from Utils import load_image_to_Tensor4D, tensor4D_to_img
+from Utils import load_image_to_Tensor4D
 
 
 class Benchmark(object):
@@ -16,10 +16,9 @@ class Benchmark(object):
 
     def __init__(self, cnn_model):
         """Constructor """
-
         self._cnnModel = cnn_model
         self._proc = self._get_processor_family()
-        self._ompThreads = self._get_OMP_NUM_THREADS()
+        self._nthreads = self._get_OMP_NUM_THREADS()
         self._perf = None
 
     def _get_processor_family(self):
@@ -58,15 +57,15 @@ class Benchmark(object):
         inShape = self._get_model_input_shape()
         print inShape[2:]
         _img = load_image_to_Tensor4D(fimg, inShape[2:])
-        self._print_header()
 
+        self._print_header()
         timings = []
         # First classification always takes x3 slowdown! We exclude it from
         # calculations
         self._cnnModel.classify(_img)
         for i in range(iterations):
             ts = time.time()
-            out = self._cnnModel.classify(_img)
+            self._cnnModel.classify(_img)
             # print np.argmax(out)
             telapsed = time.time() - ts
             timings.append(telapsed)
@@ -88,7 +87,7 @@ class Benchmark(object):
         msg += "\n-------------------------------------"
         msg += "\n  * CPU: {0}".format(self._proc)
         msg += "\n  * OpenMP-Threads ($OMP_NUM_THREADS): {0}".format(
-            self._ompThreads)
+            self._nthreads)
         msg += "\n-------------------------------------\n"
         print msg
 
@@ -99,7 +98,7 @@ class Benchmark(object):
             tAvg = tAll / len(timings)
         self._perf = {
             "processor": self._proc,
-            "threads": self._ompThreads,
+            "threads": self._nthreads,
             "cnn_model": {
                 "name": self._cnnModel.name,
                 "num_layers": len(self._cnnModel.layers)
@@ -110,14 +109,16 @@ class Benchmark(object):
 
     def save_results(self, fpath=None):
         if fpath is None:
-            fpath = "benchmark_{0}.json".format(self._cnnModel.name)
+            fpath = "benchmark_{0}_nthreads_{1}.json".format(
+                self._cnnModel.name,
+                self._nthreads)
         with open(fpath, 'w') as fstream:
             json.dump(self._perf, fstream, sort_keys=False, indent=4)
 
     def create_figure(self, fpath=None):
         title = "Platform: {0}, Num-Threads: {1}".format(self._proc,
-                                                         self._ompThreads)
-        suffix = "nthreads_{0}".format(self._ompThreads)
+                                                         self._nthreads)
+        suffix = "nthreads_{0}".format(self._nthreads)
         fig = plt.figure(1)
         fig.suptitle(title, fontsize=14)
         ax = fig.add_subplot(111)

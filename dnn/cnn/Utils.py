@@ -34,6 +34,7 @@ def get_model_weights(modelname):
     """TODO: Implement to fetch from web!! """
     pass
 
+
 def load_image_to_Tensor4D(fpath, tshape):
     """
     Transform an image to a Tensor4D
@@ -49,6 +50,7 @@ def load_image_to_Tensor4D(fpath, tshape):
     # (3, height, width) -> (1, 3, height, width)
     tens = np.expand_dims(tens, axis=0)
     return tens
+
 
 def tensor4D_to_img(x):
     x = x[0]
