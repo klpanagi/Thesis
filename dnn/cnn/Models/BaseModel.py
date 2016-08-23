@@ -54,7 +54,7 @@ class BaseModel(object):
 
     def get_model(self):
         """
-        Return a reference of the Keras Model
+        Return a reference to the Keras Model
         """
         return self._model
 
