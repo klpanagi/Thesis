@@ -2,7 +2,7 @@
 
 from keras import backend as K
 from keras.models import Model
-from keras.layers.core import Flatten, Dense, Input
+from keras.layers import Flatten, Dense, Input
 from keras.layers.convolutional import (
     Convolution2D,
     MaxPooling2D,
@@ -31,7 +31,11 @@ class VGG16(BaseModel):
             fully-connected layers, for classification, at the top of the
             network.
         """
-        self._name = "VGG16"
+        self._name = "vgg16"
+        self._weightsUrl = {
+            'th': 'https://github.com/fchollet/deep-learning-models/releases/download/v0.1/vgg16_weights_th_dim_ordering_th_kernels.h5',
+            'tf': 'https://github.com/fchollet/deep-learning-models/releases/download/v0.1/vgg16_weights_tf_dim_ordering_tf_kernels.h5'
+        }
 
         # If using the Tensor Flow backend we have to transform input shape
         if K.image_dim_ordering() == "tf":

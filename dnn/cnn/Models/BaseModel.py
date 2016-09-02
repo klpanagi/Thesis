@@ -7,6 +7,9 @@ from keras.models import (
     load_model)
 from keras.utils.visualize_util import plot
 from keras.optimizers import SGD
+from keras.utils.data_utils import get_file
+from keras import backend as K
+
 import yaml
 import json
 # import theano
@@ -47,8 +50,9 @@ class BaseModel(object):
             elif self._is_yaml_file(fpath_model_arch):
                 self.load_arch_yaml(fpath_model_arch)
             else:
-                print "".join("Could not load keras model architecture from ",
-                              fpath_model_arch)
+                print "".join(("Could not load keras model architecture from ",
+                              fpath_model_arch))
+                return
         if fpath_model_weights != "" and self._model is not None:
             self.load_weights(fpath_model_weights)
 
@@ -112,23 +116,27 @@ class BaseModel(object):
         """
         self._model = load_model(fpath)
 
-    def load_arch_yaml(self, fpath=""):
+    def load_arch_yaml(self, fpath):
         """
         Load the architecture of the Keras Model from yaml file
 
         @type fpath: String
         @param fpath: Path to the yaml file that describes the Keras Model arch
         """
-        self._model = model_from_yaml(fpath)
+        with open(fpath, 'r') as fstream:
+            yamlStr = yaml.dump(yaml.load(fstream))
+            self._model = model_from_yaml(yamlStr)
 
-    def load_arch_json(self, fpath=""):
+    def load_arch_json(self, fpath):
         """
         Load the architecture of the Keras Model from json file
 
         @type fpath: String
         @param fpath: Path to the json file that describes the Keras Model arch
         """
-        self._model = model_from_json(fpath)
+        with open(fpath, 'r') as fstream:
+            jsonStr = json.dumps(json.load(fstream))
+            self._model = model_from_json(jsonStr)
 
     def save_weights(self, fpath=""):
         """
@@ -138,14 +146,29 @@ class BaseModel(object):
             fpath = "".join((self._name, "_model.yaml"))
         self._model.save_weights(fpath)
 
-    def load_weights(self, fpath):
+    def load_weights(self, fpath=None):
         """
         Load and apply model weights from HDF5 file
 
         @type fpath: String
         @param fpath: Path to the hdf5 file that containes the model weights
         """
-        self._model.load_weights(fpath)
+        if fpath is not None:
+            self._model.load_weights(fpath)
+        else:
+            self._model.load_weights(self.download_weights())
+
+    def download_weights(self):
+        if not self._weightsUrl:
+            print 'Weights url path was not set for this model: {0}'.format(
+                self.name)
+            return None
+        else:
+            dim_ord = K.image_dim_ordering()
+            wpath = get_file('{0}_weights_{1}.h5'.format(self.name,
+                                                         dim_ord),
+                             self._weightsUrl[dim_ord])
+            return wpath
 
     def make_graph(self, shapes=True, layer_names=True, fpath=""):
         if fpath == "":
