@@ -130,7 +130,8 @@ class Benchmark(object):
         # (0,0 is lower-left and 1,1 is upper-right)
         ax.text(0.5, 0.5, 'Average={0}'.format(self._perf["average"]),
                 ha='center', va='center', transform=ax.transAxes,
-                fontsize=12, color='blue')
+                fontsize=16, color='red')
         ax.plot(range(len(self._perf["timings"])), self._perf["timings"], 'o')
-        fig.savefig('benchmark_perf_{0}.png'.format(suffix))
+        fig.savefig('benchmark_{0}_{1}.png'.format(self._cnnModel.name,
+                                                   suffix))
         plt.close(fig)
