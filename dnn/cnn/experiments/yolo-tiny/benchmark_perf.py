@@ -1,9 +1,11 @@
 #!/usr/bin/env python2
 import sys
-from Benchmark import Benchmark
-from Models import BaseModel
+# from Benchmark import Benchmark
+from Models import YoloTiny
 from os import path
-import os
+from keras.preprocessing import image
+import numpy as np
+
 
 if __name__ == "__main__":
     try:
@@ -12,26 +14,13 @@ if __name__ == "__main__":
         iterations = 100
 
     # Create the model instance
-    vgg16 = BaseModel(name='vgg16',
-                      fpath_model_arch='../../Models/descriptors/yolo-tiny/yolo-tiny_modelarch.yaml',
-                      fpath_model_weights='../../Models/weights/yolo-tiny_th.weights')
-    # Load weights
-    # vgg16.load_weights(wpath)
-    vgg16.compile()
-    # model = vgg16.get_model()
-    # Generate function to visualize first layer
-    # convout1_f = K.function([model.layers[0].input, K.learning_phase()], [model.layers[7].output])
-    # _inData = load_image_to_Tensor4D('cat.jpg', (224, 224))
+    yolotiny = YoloTiny()
+    yolotiny.compile()
 
-    # print _inData.shape
+    img = image.load_img('cat.jpg', target_size=(512, 512))
+    img = image.crop_img(img, target_size=(448, 448))
+    x = image.img_to_array(img)
+    x = np.expand_dims(x, axis=0)
 
-    # out = convout1_f([_inData, 0])[0]
-    # print out.shape
-    # convImg = tensor4D_to_img(out)
-    # print convImg.shape
-    # imshow(convImg[:, :, 1])
-
-    benchmarker = Benchmark(vgg16)
-    benchmarker.run_for_performance('cat.jpg', iterations=iterations)
-    benchmarker.save_results()
-    benchmarker.create_figure()
+    out = yolotiny.classify(x)
+    print out

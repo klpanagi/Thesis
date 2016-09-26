@@ -31,7 +31,7 @@ class VGG16(BaseModel):
             fully-connected layers, for classification, at the top of the
             network.
         """
-        self._name = "vgg16"
+        self._name = "VGG16"
         self._weightsUrl = {
             'th': 'https://github.com/fchollet/deep-learning-models/releases/download/v0.1/vgg16_weights_th_dim_ordering_th_kernels.h5',
             'tf': 'https://github.com/fchollet/deep-learning-models/releases/download/v0.1/vgg16_weights_tf_dim_ordering_tf_kernels.h5'

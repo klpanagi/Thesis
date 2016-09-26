@@ -12,6 +12,7 @@ from keras import backend as K
 
 import yaml
 import json
+from os import path
 # import theano
 
 
@@ -114,7 +115,7 @@ class BaseModel(object):
         @type fpath: String
         @param fpath: Path to the hdf5 file of the model
         """
-        self._model = load_model(fpath)
+        self._model = load_model(path.expanduser(fpath))
 
     def load_arch_yaml(self, fpath):
         """
@@ -123,7 +124,7 @@ class BaseModel(object):
         @type fpath: String
         @param fpath: Path to the yaml file that describes the Keras Model arch
         """
-        with open(fpath, 'r') as fstream:
+        with open(path.expanduser(fpath), 'r') as fstream:
             yamlStr = yaml.dump(yaml.load(fstream))
             self._model = model_from_yaml(yamlStr)
 
@@ -134,7 +135,7 @@ class BaseModel(object):
         @type fpath: String
         @param fpath: Path to the json file that describes the Keras Model arch
         """
-        with open(fpath, 'r') as fstream:
+        with open(path.expanduser(fpath), 'r') as fstream:
             jsonStr = json.dumps(json.load(fstream))
             self._model = model_from_json(jsonStr)
 
@@ -154,7 +155,7 @@ class BaseModel(object):
         @param fpath: Path to the hdf5 file that containes the model weights
         """
         if fpath is not None:
-            self._model.load_weights(fpath)
+            self._model.load_weights(path.expanduser(fpath))
         else:
             self._model.load_weights(self.download_weights())
 
