@@ -1,15 +1,32 @@
 [global]
-floatX = float32
 device = gpu0
-optimizer_including = cudnn
+/*device = cpu*/
+floatX = float32
+/*optimizer_including = cudnn*/
 force_device = True
 allow_gc = True
+/*optimizer_verbose = True*/
+optimizer = fast_run
+mode = FAST_RUN
+
 
 [dnn]
-enabled = True
+/*enabled = True*/
+
 
 [nvcc]
 fastmath = True
 
+
 [lib]
-cnmem = 0.5
+cnmem = 0.4
+
+
+[blas]
+ldflags = -lopenblas -lpthread -lgfortran
+
+
+[gcc]
+cxxflags = -L/opt/OpenBLAS/lib -ffast-math -funroll-loops
+/*cxxflags = -O3 -ffast-math -ftree-loop-distribution -funroll-loops -ftracer -L/opt/OpenBLAS/lib*/
+

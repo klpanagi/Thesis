@@ -6,13 +6,13 @@ function _build_theano_optimized () {
   sudo apt-get update
   sudo apt-get install -y python-dev
   # Python deps
-  #pip install numpy scipy
 
   # Clone Theano Repo
   cd ~
   git clone git://github.com/Theano/Theano.git
   cd Theano
-  git checkout tags/rel-0.7.1a1
+  # Tested at this commit with Keras at commit d745d9ee96e5d39393ac740e5b84229beca00f1d
+  git checkout a29c31d3099f05991917576ef1d31cd13c33c1ca
   python setup.py develop --user
 }
 

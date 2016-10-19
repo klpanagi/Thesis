@@ -247,7 +247,10 @@ Eigendecomp of (1500,1500) matrix in 28.708 s
 ```
 
 
-## Install Theano on a Jetson TK1 board
+## Install Theano and Keras on a Jetson TK1 board
+
+Use Theano (a29c31d3099f05991917576ef1d31cd13c33c1ca) with Keras (d745d9ee96e5d39393ac740e5b84229beca00f1d)
+Using older Theano releases with current version of Keras most probably will break!!!
 
 Simply execute the `theano_install.sh` on the Jetson TK1 board
 
