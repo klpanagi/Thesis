@@ -1,10 +1,6 @@
 #!/bin/bash -ie
 
 function _build_scipy_with_openblas() {
-  #
-  PREFIX=""
-  CORES=4
-  BLAS="openblas"
   # Deps
   pip install cython tempita
 
