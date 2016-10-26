@@ -114,11 +114,13 @@ Pretty interesting and will will try it to compare performance with different BL
 **NOTE**: Make sure you have cpu-throttoling disabled before building ATLAS ([here](http://math-atlas.sourceforge.net/atlas_install/node5.html)). To disable cpu-throttling for the Jetson TK1 board
 follow [this](http://elinux.org/Jetson/Performance) guide.
 
-**TIP**: Configure to use hard floating-point ABI, aka NEON:
+##### Configure to use hard floating-point ABI, aka NEON:
 
 ```bash
 $ ../configure -D c -DATL_NONIEEE=1 -D c -DATL_ARM_HARDFP=1 -Si archdef 0 -Fa alg '-mfloat-abi=hard -fPIC -mfpu=neon' --prefix=/opt/ATLAS3.10.3 --shared -v 2
 ```
+
+or simply execute the script `atlas_build.sh`
 
 ## Numpy optimized for Jetson TK1
 
@@ -141,28 +143,6 @@ To run the numpy tests simply execute:
 ```bash
 $ python -c "import numpy; numpy.test()"
 ```
-
-If you have installed the numpy suite in user space (the `numpy_optimized.sh` script by default installs numpy in user space `${HOME}/.local`)
-and the `test_scripts.test_f2py` test fails with an error:
-
-```bash
-FAIL: test_scripts.test_f2py
-----------------------------------------------------------------------
-Traceback (most recent call last):
-    File "/usr/local/lib/python2.7/dist-packages/nose/case.py", line 197, in runTest
-        self.test(*self.arg)
-      File "/home/cyanms/.local/lib/python2.7/site-packages/numpy-1.12.0.dev0+4c415d2-py2.7-linux-armv7l.egg/numpy/testing/decorators.py", line 147, in skipper_func
-        return f(*args, **kwargs)
-      File "/home/cyanms/.local/lib/python2.7/site-packages/numpy-1.12.0.dev0+4c415d2-py2.7-linux-armv7l.egg/numpy/tests/test_scripts.py", line 93, in test_f2py
-        assert_(success, msg)
-      File "/home/cyanms/.local/lib/python2.7/site-packages/numpy-1.12.0.dev0+4c415d2-py2.7-linux-armv7l.egg/numpy/testing/utils.py", line 63, in assert_
-        raise AssertionError(smsg)
-    AssertionError: Warning: neither f2py nor f2py2 nor f2py2.7 found in path
-```
-
-then the error occures because you do not have `${HOME}/.local/bin` in system PATH and this test uses the `f2py` executable that is located there.
-
-To fix the above error simply add `${HOME}/.local/bin` in the `$PATH` environmental variable.
 
 
 ### Numpy compiled with OpenBLAS
@@ -220,7 +200,7 @@ blas_mkl_info:
 Execute the `numpy_blas_perf_tests.py` to get performance results (timings)
 
 
-The performance results obtained incase of compiling numpy using the default blas library:
+##### Compiled with default blas library:
 
 ```bash
 $ ./numpy_blas_perf_tests.py
@@ -233,7 +213,7 @@ SVD of (2000,1000) matrix in 94.985 s
 Eigendecomp of (1500,1500) matrix in 98.585 s
 ```
 
-Performance results when numpy have been compiled with OpenBLAS library:
+##### Compiled with OpenBLAS
 
 ```bash
 $ ./numpy_blas_perf_tests.py
@@ -246,6 +226,17 @@ SVD of (2000,1000) matrix in 11.200 s
 Eigendecomp of (1500,1500) matrix in 28.708 s
 ```
 
+##### Compiled with Atlas
+
+```bash
+
+dotted two (1000,1000) matrices in 209.2 ms
+dotted two (4000) vectors in 10.99 us
+Inversion of (1000,1000) matrix in 570.630 ms
+Determinant of (1000,1000) matrix in 283.391 ms
+SVD of (2000,1000) matrix in 51.635 s
+Eigendecomp of (1500,1500) matrix in 38.157 s
+```
 
 ## Install Theano and Keras on a Jetson TK1 board
 
