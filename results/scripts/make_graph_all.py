@@ -11,14 +11,15 @@ import operator
 
 def create_figure(res):
     # title = "Platform: {0}".format(res[0]['processor'] + ' - (Cortex A15)')
-    title = "Platform: Jetson TK1"
+    title = "Platform: {0}".format(res[0]['processor'])
+    # title = "Platform: Jetson TK1"
     fig = plt.figure(1)
     fig.suptitle(title, fontsize=14)
     ax = fig.add_subplot(111)
     fig.subplots_adjust(top=0.85)
 
     ax.set_autoscaley_on(True)
-    ax.set_ylim(0.3, 1)
+    ax.set_ylim(0.08, 0.6)
 
     ax.set_title("CNN Model: {0}".format(
         res[0]['cnn_model']['name']))
@@ -33,7 +34,7 @@ def create_figure(res):
         if val['processor'] == 'gpu':
             label = 'gpu: cnmem = %i' % val['cnmem']
         else:
-            label = 'cpu: #threads = %i' % int(val['threads'])
+            label = 'cpu: threads = %i' % int(val['threads'])
         ax.plot(range(len(val['timings'])), val['timings'],
                 label=label)
         ax.plot(range(len(val['timings'])),
